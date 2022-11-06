@@ -1,6 +1,6 @@
 FROM golang:1.18 as build
 WORKDIR /home
-RUN git clone https://github.com/Jigsaw-Code/outline-ss-server.git
+RUN git clone --depth 1 --branch v1.4.0 https://github.com/Jigsaw-Code/outline-ss-server.git
 WORKDIR /home/outline-ss-server
 RUN CGO_ENABLED=0 GOOS=linux go build .
 RUN env
