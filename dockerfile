@@ -1,9 +1,8 @@
-FROM golang:1.18 as build
+FROM alpine:latest as build
+ARG VERSION
 WORKDIR /home
-RUN git clone https://github.com/Jigsaw-Code/outline-ss-server.git
-WORKDIR /home/outline-ss-server
-RUN CGO_ENABLED=0 GOOS=linux go build .
-RUN env
-FROM alpine:3.14
-COPY --from=build /home/outline-ss-server/outline-ss-server /usr/bin/outline-ss-server
+RUN wget https://github.com/Jigsaw-Code/outline-ss-server/releases/download/v${VERSION}/outline-ss-server_${VERSION}_linux_x86_64.tar.gz \
+    && tar -xzvf outline-ss-server_${VERSION}_linux_x86_64.tar.gz
+FROM alpine:latest
+COPY --from=build /home/outline-ss-server /usr/bin/outline-ss-server
 ENTRYPOINT [ "/usr/bin/outline-ss-server" ]
